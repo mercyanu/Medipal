@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/menu1"
+            android:icon="@drawable/home_icon"
+            android:title="DASHBOARD"/>
+        <item android:id="@+id/menu2"
+            android:icon="@drawable/appt_icon"
+            android:title="APPOINTMENTS"/>
+        <item android:id="@+id/menu3"
+            android:icon="@drawable/consult_icon"
+            android:title="CONSULTATION"/>
+        <item android:id="@+id/menu4"
+            android:icon="@drawable/health_record_icon"
+            android:title="PERSONAL HEALTH RECORD"/>
+    </group>
+
+    <group>
+        <item android:id="@+id/menu5"
+            android:icon="@drawable/settings_icon"
+            android:title="SETTINGS"/>
+        <item android:id="@+id/menu6"
+            android:icon="@drawable/logout_icon"
+            android:title="LOGOUT"/>
+
+    </group>
+</menu>

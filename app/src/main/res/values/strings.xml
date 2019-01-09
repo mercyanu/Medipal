@@ -1,0 +1,47 @@
+<resources>
+    <!-- STATIC TEXTS -->
+    <string name="app_name">Medipal</string>
+    <string name="login_text">Login</string>
+    <string name="register_text">Register</string>
+    <string name="forgot_text">Forgot password</string>
+    <string name="check_email">Verification email will be sent to your inbox</string>
+    <string name="verify_your_email">Check your inbox to verify your email</string>
+    <string name="forgot_email">Check your email for password reset link</string>
+    <string name="all_required">* All fields are required</string>
+    <string name="request_info">User will be added when user accepts request</string>
+
+    <!-- HINTS -->
+    <string name="email_hint">Email address</string>
+    <string name="password_hint">Password</string>
+    <string name="full_name_hint">Full Name</string>
+    <string name="phone_hint">Mobile no</string>
+    <string name="gender_hint">Gender</string>
+    <string name="country_hint">Country of Residence</string>
+    <string name="speciality_hint">Speciality</string>
+    <string name="type_something_hint">Type something...</string>
+
+    <!-- BUTTONS -->
+    <string name="login_button">LOGIN</string>
+    <string name="register_button">REGISTER</string>
+    <string name="retrieve_password_button">RETRIEVE PASSWORD</string>
+    <string name="resend_verification">RESEND</string>
+    <string name="schedule_button">SCHEDULE</string>
+    <string name="add_button">ADD</string>
+    <string name="search_button">SEARCH</string>
+    <string name="remove_button">REMOVE</string>
+    <string name="save_button">SAVE</string>
+    <string name="enter_button">ENTER</string>
+    <string name="cancel_appointment_button">CANCEL THIS APPOINTMENT</string>
+    <string name="send_request_button">SEND REQUEST</string>
+    <string name="decline_request_button">DECLINE INVITE</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="ok_button">OK</string>
+
+    <!-- LINKS -->
+    <string name="login_link">Already have an account? Login now</string>
+    <string name="register_link">No account yet? Register now</string>
+    <string name="resend_link">Already registered? Resend verification email</string>
+    <string name="forgot_link">Forgot password</string>
+    <string name="view_details">View Details</string>
+    <string name="accept_invite">ACCEPT</string>
+</resources>

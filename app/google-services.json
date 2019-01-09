@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "536447882739",
+    "firebase_url": "https://projects-29036.firebaseio.com",
+    "project_id": "projects-29036",
+    "storage_bucket": "projects-29036.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536447882739:android:8548d8c9e6ad0cc4",
+        "android_client_info": {
+          "package_name": "com.aimitechsolutions.medipal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536447882739-angnnmh8snjn8kropat3ulclgkketljl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkmAdIb_QLyZIbvnl-hgOdleeSgDnXvGY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

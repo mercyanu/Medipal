@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toast_viewGroup"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ff0000"
+    android:padding="5dp"
+    android:layout_margin="15dp"
+    android:orientation="horizontal"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:id="@+id/toast_image"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/warning_icon"/>
+    <TextView
+        android:id="@+id/toast_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fffb1e"
+        android:textSize="13sp"
+        android:padding="5dp"
+        android:text=" Incorrect Details, Please try again"
+        android:fontFamily="monospace"
+        />
+</LinearLayout>
