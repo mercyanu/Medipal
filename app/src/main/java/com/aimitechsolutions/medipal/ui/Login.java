@@ -2,7 +2,6 @@ package com.aimitechsolutions.medipal.ui;
 
 import android.app.AlertDialog;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +48,7 @@ public class Login extends Fragment {
     TextView gotoForgotView;
     String mEmailAddress;
     String mPassword;
-    ProgressBar progressBar;
+    ProgressBar pg;
 
     FirebaseAuth getFirebaseInstance = FirebaseAuth.getInstance();
 
@@ -63,7 +61,7 @@ public class Login extends Fragment {
         emailView = fragV.findViewById(R.id.email_address);
         //pwordLay = fragV.findViewById(R.id.pass_lay);
         pwordView = fragV.findViewById(R.id.password);
-        progressBar = fragV.findViewById(R.id.progress_bar2);
+        pg = fragV.findViewById(R.id.progress_bar2);
 
         gotoRegisterView = fragV.findViewById(R.id.goto_register);
         gotoRegisterView.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +104,6 @@ public class Login extends Fragment {
                         if(Validator.emailValid(mEmailAddress)){
                             if(Validator.passwordValid(mPassword)){
                                 //start loging in
-                                progressBar.setVisibility(View.VISIBLE);
                                 logUserIn();
 
                             }
@@ -151,6 +148,7 @@ public class Login extends Fragment {
 
     private void logUserIn(){
         if(!mEmailAddress.isEmpty() && !mPassword.isEmpty()){
+            pg.setVisibility(View.VISIBLE);
             getFirebaseInstance.signInWithEmailAndPassword(mEmailAddress, mPassword)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -160,9 +158,13 @@ public class Login extends Fragment {
                                 FirebaseUser user = getFirebaseInstance.getCurrentUser();
                                 if(user!=null && user.isEmailVerified()) {
                                     //user logged in..code to start dashboard
+                                    pg.setVisibility(View.INVISIBLE);
+                                    Intent i = new Intent(getContext(), DashboardActivity.class);
+                                    startActivity(i);
                                     Toast.makeText(getActivity(), "successful now goto dashbord and finish this activity", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
+                                    pg.setVisibility(View.INVISIBLE);
                                     Toast.makeText(getActivity(), "You have not verified your email address", Toast.LENGTH_LONG).show();
                                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
                                     dialogBuilder.setIcon(R.drawable.red_tick)
@@ -171,7 +173,7 @@ public class Login extends Fragment {
                                             .setPositiveButton("Resend", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    if(progressBar.getVisibility() == View.INVISIBLE) progressBar.setVisibility(View.VISIBLE);
+                                                    if(pg.getVisibility() == View.INVISIBLE) pg.setVisibility(View.VISIBLE);
                                                     resendVerificationEmail();
                                                 }
                                             })
@@ -199,7 +201,6 @@ public class Login extends Fragment {
                 }
             });
         }
-        if (progressBar.getVisibility() == View.VISIBLE) progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void resendVerificationEmail(){
@@ -216,7 +217,7 @@ public class Login extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
-                                    if(progressBar.getVisibility() == View.VISIBLE) progressBar.setVisibility(View.INVISIBLE);
+                                    if(pg.getVisibility() == View.VISIBLE) pg.setVisibility(View.INVISIBLE);
                                 }
                             });
                     AlertDialog dialog = dialogBuilder.create();

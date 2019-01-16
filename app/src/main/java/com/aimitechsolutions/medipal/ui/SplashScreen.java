@@ -17,8 +17,8 @@ import com.aimitechsolutions.medipal.R;
 import com.aimitechsolutions.medipal.utils.CustomToast;
 
 public class SplashScreen extends Fragment {
-    View fragV;
 
+    View fragV;
     private final int SPLASH_DISPLAY_DURATION = 5000; //milliseconds
     @Nullable
     @Override

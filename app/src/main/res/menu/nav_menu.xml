@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group>
-        <item android:id="@+id/menu1"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item android:id="  @+id/home"
             android:icon="@drawable/home_icon"
             android:title="DASHBOARD"/>
-        <item android:id="@+id/menu2"
+        <item android:id="@+id/appt"
             android:icon="@drawable/appt_icon"
             android:title="APPOINTMENTS"/>
-        <item android:id="@+id/menu3"
+        <item android:id="@+id/consult"
             android:icon="@drawable/consult_icon"
             android:title="CONSULTATION"/>
-        <item android:id="@+id/menu4"
+        <item android:id="@+id/record"
             android:icon="@drawable/health_record_icon"
             android:title="PERSONAL HEALTH RECORD"/>
-    </group>
-
-    <group>
-        <item android:id="@+id/menu5"
+        <item android:id="@+id/settings"
             android:icon="@drawable/settings_icon"
             android:title="SETTINGS"/>
-        <item android:id="@+id/menu6"
+        <item android:id="@+id/logout"
             android:icon="@drawable/logout_icon"
             android:title="LOGOUT"/>
 
