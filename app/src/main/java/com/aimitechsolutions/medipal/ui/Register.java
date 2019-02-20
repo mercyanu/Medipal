@@ -143,17 +143,17 @@ public class Register extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Log.d(TAG, "New user created" + getFirebaseInstance.getCurrentUser().getUid());
+                            Log.d(TAG, "New currentUser created" + getFirebaseInstance.getCurrentUser().getUid());
                             sendVerificationEmail();
                         }
                         else{
                             CustomToast.displayToast(getActivity(), fragV, "Account already exist");
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                CustomToast.displayToast(getActivity(), fragV, "Account already exist");
             }
         });
     }

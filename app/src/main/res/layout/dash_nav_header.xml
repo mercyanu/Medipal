@@ -4,24 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="220dp"
     android:background="@drawable/drawer_back">
 
 
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/drawer_profile_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="86dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/doctor_icon"/>
+        app:srcCompat="@drawable/doctor_icon" />
 
     <TextView
-        android:id="@+id/full_name"
+        android:id="@+id/drawer_full_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -31,10 +31,10 @@
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+        app:layout_constraintTop_toBottomOf="@+id/drawer_profile_image" />
 
     <TextView
-        android:id="@+id/location"
+        android:id="@+id/drawer_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nigeria"
@@ -43,15 +43,15 @@
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/full_name" />
+        app:layout_constraintTop_toBottomOf="@+id/drawer_full_name" />
 
     <ImageView
-        android:id="@+id/edit_details"
+        android:id="@+id/drawer_edit_details"
         android:layout_width="15dp"
         android:layout_height="12dp"
-        android:layout_marginBottom="24dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/location"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/drawer_location"
+        app:layout_constraintTop_toTopOf="@+id/drawer_location"
         app:srcCompat="@drawable/pencil_icon" />
 </android.support.constraint.ConstraintLayout>

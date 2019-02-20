@@ -1,37 +1,47 @@
 package com.aimitechsolutions.medipal.ui;
 
-import android.app.AlertDialog;
-import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.app.AlertDialog;
+        import android.support.design.widget.TextInputEditText;
+        import android.support.v4.app.FragmentManager;
+        import android.content.Context;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.provider.Settings;
+        import android.support.annotation.NonNull;
+        import android.support.annotation.Nullable;
+        import android.support.v4.app.Fragment;
+        import android.support.v4.app.FragmentTransaction;
+        import android.util.Log;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.view.inputmethod.InputMethodManager;
+        import android.widget.Button;
+        import android.widget.ProgressBar;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.aimitechsolutions.medipal.R;
-import com.aimitechsolutions.medipal.utils.ConnectNetwork;
-import com.aimitechsolutions.medipal.utils.CustomToast;
-import com.aimitechsolutions.medipal.utils.Validator;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+        import com.aimitechsolutions.medipal.R;
+        import com.aimitechsolutions.medipal.model.User;
+        import com.aimitechsolutions.medipal.utils.ConnectNetwork;
+        import com.aimitechsolutions.medipal.utils.CustomToast;
+        import com.aimitechsolutions.medipal.utils.Validator;
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.OnFailureListener;
+        import com.google.android.gms.tasks.Task;
+        import com.google.firebase.auth.AuthResult;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.ValueEventListener;
+        import com.google.firebase.firestore.CollectionReference;
+        import com.google.firebase.firestore.DocumentReference;
+        import com.google.firebase.firestore.DocumentSnapshot;
+        import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends Fragment {
 
@@ -51,6 +61,8 @@ public class Login extends Fragment {
     ProgressBar pg;
 
     FirebaseAuth getFirebaseInstance = FirebaseAuth.getInstance();
+    FirebaseDatabase databaseInstance = FirebaseDatabase.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Nullable
@@ -142,7 +154,7 @@ public class Login extends Fragment {
     private void hideKeyboard(){
         if(fragV != null){
             ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).
-            hideSoftInputFromWindow(fragV.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    hideSoftInputFromWindow(fragV.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
@@ -157,14 +169,10 @@ public class Login extends Fragment {
                                 Log.d(TAG, "New User logged in: "+getFirebaseInstance.getCurrentUser().getUid());
                                 FirebaseUser user = getFirebaseInstance.getCurrentUser();
                                 if(user!=null && user.isEmailVerified()) {
-                                    //user logged in..code to start dashboard
-                                    pg.setVisibility(View.INVISIBLE);
-                                    Intent i = new Intent(getContext(), DashboardActivity.class);
-                                    startActivity(i);
-                                    Toast.makeText(getActivity(), "successful now goto dashbord and finish this activity", Toast.LENGTH_SHORT).show();
+                                    //currentUser logged in...if currentUser in DB goto dashboard else goto account update
+                                    checkUserInDbAndLogin();
                                 }
                                 else {
-                                    pg.setVisibility(View.INVISIBLE);
                                     Toast.makeText(getActivity(), "You have not verified your email address", Toast.LENGTH_LONG).show();
                                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
                                     dialogBuilder.setIcon(R.drawable.red_tick)
@@ -185,19 +193,21 @@ public class Login extends Fragment {
                                             });
                                     AlertDialog dialog = dialogBuilder.create();
                                     dialog.show();
-
+                                    pg.setVisibility(View.INVISIBLE);
                                 }
                             }
                             else{
-                                Log.d(TAG, "SIgn in Task failed due to:" +task.getException());
-                                CustomToast.displayToast(getActivity(), fragV, "Log in failed...Please try again!");
+                                Log.d(TAG, "Sign in Task failed due to:" +task.getException());
+                                pg.setVisibility(View.INVISIBLE);
+                                CustomToast.displayToast(getActivity(), fragV, "Incorrect username or password!");
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.d(TAG, "Sign onFailure due to:"+e.getMessage());
-                    CustomToast.displayToast(getActivity(), fragV, "Incorrect username or password");
+                    pg.setVisibility(View.INVISIBLE);
+                    //CustomToast.displayToast(getActivity(), fragV, "Incorrect username or password");
                 }
             });
         }
@@ -226,5 +236,62 @@ public class Login extends Fragment {
                 else Toast.makeText(getActivity(), "Could not send verification email, please try again", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void checkUserInDbAndLogin(){
+        final String userID = getFirebaseInstance.getCurrentUser().getUid();
+        /*DatabaseReference databaseReference = databaseInstance.getReference();
+        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(userID)){
+                    Toast.makeText(getActivity(), "The currentUser is in database", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getActivity(), DashboardActivity.class);
+                    startActivity(i);
+                    getActivity().finish();
+                }
+                else {
+                    AccountDetail accountSetting = new AccountDetail();
+                    FragmentManager manager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.replace(R.id.fragments_container, accountSetting);
+                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    transaction.commit();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), "Something went wrong due to=>" +databaseError, Toast.LENGTH_SHORT).show();
+            }
+        }); */
+
+        DocumentReference documentReference = db.collection("users").document(userID);
+                documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot ds = task.getResult();
+                            //User gUser = ds.toObject(User.class);
+                            if(ds.exists()) {
+                                Log.d(TAG, "User is in database" + task.getResult().getId());
+                                Intent i = new Intent(getActivity(), DashboardActivity.class);
+                                startActivity(i);
+                                getActivity().finish();
+                                pg.setVisibility(View.INVISIBLE);
+                            }
+                            else {
+                                Log.d(TAG, "User not in database");
+                                AccountDetail accountSetting = new AccountDetail();
+                                FragmentManager manager = getActivity().getSupportFragmentManager();
+                                FragmentTransaction transaction = manager.beginTransaction();
+                                transaction.replace(R.id.fragments_container, accountSetting);
+                                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                                transaction.commit();
+                                pg.setVisibility(View.INVISIBLE);
+                            }
+                        }
+                        else Log.d(TAG, "Error fetching from database"); pg.setVisibility(View.INVISIBLE);
+                    }
+                });
     }
 }
