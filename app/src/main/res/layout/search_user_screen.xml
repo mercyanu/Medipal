@@ -16,13 +16,13 @@
 
         <include
                 android:id="@+id/include1"
-                layout="@layout/search_user_frag"
+                layout="@layout/send_invite_frag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         <!--<include
             android:id="include2"
-            layout="@layout/pending_request_frag"
+            layout="@layout/received_invites_frag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"/> -->

@@ -27,12 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -80,7 +75,7 @@ public class AccountDetail extends Fragment {
         usertypeSpinner = fragV.findViewById(R.id.usertype);
         firstNameView = fragV.findViewById(R.id.first_name);
         lastNameView = fragV.findViewById(R.id.last_name);
-        emailView = fragV.findViewById(R.id.email_address);
+        emailView = fragV.findViewById(R.id.full_name);
             emailView.setText(currentUser.getEmail());
             emailView.setEnabled(false);
         mobileView = fragV.findViewById(R.id.mobile);
@@ -242,9 +237,7 @@ public class AccountDetail extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(fragV.getContext(), "Data saved", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getActivity(), DashboardActivity.class);
-                        startActivity(i);
-                        getActivity().finish();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -262,6 +255,9 @@ public class AccountDetail extends Fragment {
                         Log.d(TAG, "You have updated the database");
                         Toast.makeText(fragV.getContext(), "Record stored successfully", Toast.LENGTH_LONG).show();
                         pg.setVisibility(View.INVISIBLE);
+                        Intent i = new Intent(getActivity(), DashboardActivity.class);
+                        startActivity(i);
+                        getActivity().finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

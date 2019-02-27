@@ -23,7 +23,6 @@ package com.aimitechsolutions.medipal.ui;
         import android.widget.Toast;
 
         import com.aimitechsolutions.medipal.R;
-        import com.aimitechsolutions.medipal.model.User;
         import com.aimitechsolutions.medipal.utils.ConnectNetwork;
         import com.aimitechsolutions.medipal.utils.CustomToast;
         import com.aimitechsolutions.medipal.utils.Validator;
@@ -33,12 +32,7 @@ package com.aimitechsolutions.medipal.ui;
         import com.google.firebase.auth.AuthResult;
         import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.auth.FirebaseUser;
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
-        import com.google.firebase.database.DatabaseReference;
         import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.database.ValueEventListener;
-        import com.google.firebase.firestore.CollectionReference;
         import com.google.firebase.firestore.DocumentReference;
         import com.google.firebase.firestore.DocumentSnapshot;
         import com.google.firebase.firestore.FirebaseFirestore;
@@ -70,7 +64,7 @@ public class Login extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragV = inflater.inflate(R.layout.login_screen, container, false);
         //emailLay = fragV.findViewById(R.id.email_lay);
-        emailView = fragV.findViewById(R.id.email_address);
+        emailView = fragV.findViewById(R.id.full_name);
         //pwordLay = fragV.findViewById(R.id.pass_lay);
         pwordView = fragV.findViewById(R.id.password);
         pg = fragV.findViewById(R.id.progress_bar2);

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.res.ResourcesCompat;
@@ -182,7 +181,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.dash, menu);
+        getMenuInflater().inflate(R.menu.dashboard_menu, menu);
         return true;
     }
 
@@ -191,10 +190,14 @@ public class DashboardActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_settings) {
-            Toast.makeText(DashboardActivity.this, "YOu have selected Settings", Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashboardActivity.this, "Settings Clickec", Toast.LENGTH_SHORT).show();
             return true;
         }
-        else if(id == R.id.mediapal) Toast.makeText(DashboardActivity.this, "YOu have selected Medipal", Toast.LENGTH_SHORT).show();
+        else if(id == R.id.manage_requests) {
+            //goto the manage requests activity
+            Intent i = new Intent(this, ManageInvitesActivity.class);
+            startActivity(i);
+        }
 
         return super.onOptionsItemSelected(item);
     }

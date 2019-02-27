@@ -8,7 +8,7 @@
     <string name="verify_your_email">Check your inbox to verify your email</string>
     <string name="forgot_email">Check your email for password reset link</string>
     <string name="all_required">* All fields are required</string>
-    <string name="request_info">User will be added when user accepts request</string>
+    <string name="invite_info">User will be added to consultation list upon acceptance</string>
     <string name="appointment_scheduling_text">Your appointments</string>
     <string name="consultation_text">Consultation</string>
     <string name="personal_health_record_text">Manage health record</string>
@@ -38,8 +38,8 @@
     <string name="save_button">SAVE</string>
     <string name="enter_button">ENTER</string>
     <string name="cancel_appointment_button">CANCEL THIS APPOINTMENT</string>
-    <string name="send_request_button">SEND REQUEST</string>
-    <string name="decline_request_button">DECLINE INVITE</string>
+    <string name="send_invite_button">SEND INVITE</string>
+    <string name="decline_invite_button">DECLINE INVITE</string>
     <string name="cancel_button">Cancel</string>
     <string name="ok_button">OK</string>
 
@@ -50,13 +50,19 @@
     <string name="forgot_link">Forgot password</string>
     <string name="view_details">View Details</string>
     <string name="accept_invite">ACCEPT</string>
+    <string name="cancel_invite">CANCEL</string>
     <string name="title_activity_dash">DashActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+
+    <!--  ACTION BAR MENU ITEMS-->
+    <string name="edit_account_action">Edit account</string>
+    <string name="invites_action">Invites</string>
+    <string name="send_new_invite">Send new invite</string>
+    <string name="pending_invites">Pending invites</string>
 
     <!-- GENDER -->
     <string-array name="gender_array">
@@ -316,5 +322,8 @@
         <item>Zambia</item>
         <item>Zimbabwe</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
