@@ -117,7 +117,6 @@ public class SendInvite extends Fragment {
                         User gottenUser = doc.toObject(User.class);
                         if(gottenUser != null){
                             if(!gottenUser.getEmail().equals(FetchNow.getUserEmail())){
-                                Toast.makeText(getContext(), "The user name is " + gottenUser.getFname() + " " + gottenUser.getLname(), Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "Full name is "+gottenUser.getFname()+gottenUser.getLname());
                                 //set dialog fragment
                                 SendInviteDialog sendInviteDialog = new SendInviteDialog();
@@ -131,14 +130,14 @@ public class SendInvite extends Fragment {
                                 pg.setVisibility(View.INVISIBLE);
                                 }
                             else {
-                                Toast.makeText(getActivity(), "You are logged in as " + FetchNow.getUserEmail(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "You are logged in as " + FetchNow.getUserEmail(), Toast.LENGTH_LONG).show();
                                 pg.setVisibility(View.INVISIBLE);
                             }
                         }
                         else Log.d(TAG, "User object is null"); pg.setVisibility(View.INVISIBLE);
                     }
                 }
-                else Toast.makeText(getActivity(), "User does not exist", Toast.LENGTH_SHORT).show(); pg.setVisibility(View.INVISIBLE);
+                else Toast.makeText(getActivity(), "User does not exist", Toast.LENGTH_LONG).show(); pg.setVisibility(View.INVISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

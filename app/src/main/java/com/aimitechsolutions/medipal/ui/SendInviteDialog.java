@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class SendInviteDialog extends DialogFragment {
     TextView userFullNameView;
     Button sendButton;
     Button cancelButton;
+    ProgressBar pg;
 
     //member var
     String mUserId;
@@ -55,13 +57,14 @@ public class SendInviteDialog extends DialogFragment {
         mUserType = this.getArguments().getString("user_type");
         mFirstName = this.getArguments().getString("first_name");
         mLastName = this.getArguments().getString("last_name");
-        if(mUserType.equals("A doctor")) mFullName = "Dr. " + mFirstName+ " " + mLastName;
-        mFullName = mFirstName+ " " + mLastName;
+        if(mUserType.equals("A doctor")) { mFullName = "Dr. " + mFirstName+ " " + mLastName; }
+        else { mFullName = mFirstName+ " " + mLastName;}
 
         userFullNameView = fragV.findViewById(R.id.full_name);
         userFullNameView.setText(mFullName);
         cancelButton = fragV.findViewById(R.id.cancel_button);
         sendButton = fragV.findViewById(R.id.send_button);
+        pg = fragV.findViewById(R.id.progressBar11);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +76,7 @@ public class SendInviteDialog extends DialogFragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pg.setVisibility(View.VISIBLE);
                 //check if user exists in friends_list
                 DocumentReference documentReference = db.collection("friends_list").document(FetchNow.getUserId());
                 documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -87,7 +91,9 @@ public class SendInviteDialog extends DialogFragment {
                                             checkPendingInvites();
                                         }
                                         else if(document.getBoolean(mUserId)){
-                                            Toast.makeText(getActivity(), mFullName+" is already on consultation list", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), mFullName+" is already on consultation list", Toast.LENGTH_LONG).show();
+                                            getDialog().dismiss();
+                                            pg.setVisibility(View.INVISIBLE);
                                         }
                                     }    else {
                                         //user not here
@@ -117,19 +123,21 @@ public class SendInviteDialog extends DialogFragment {
                             sendInvite(); //UPDATE the document to have the new field fo mUser and sent/rece as value
                         }
                         else if(document.getString(mUserId).equals("sent")){
-                            getDialog().dismiss();
                             Toast.makeText(getActivity(), "You already sent an invite to "+ mFullName, Toast.LENGTH_LONG).show();
+                            getDialog().dismiss();
+                            pg.setVisibility(View.INVISIBLE);
+
                         }
                         else if(document.getString(mUserId).equals("received")){
+                            pg.setVisibility(View.INVISIBLE);
                             //ask if to accept invite "USER SENT AN INVITE ALREADY, DO YOU WANT TO ACCEPT
-                            getDialog().dismiss();
                             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
                             dialogBuilder.setMessage("Accept invite?")
                                     .setTitle(mFullName + " already sent you an invite")
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Toast.makeText(getActivity(), "Accepting invite", Toast.LENGTH_SHORT).show();
+                                            pg.setVisibility(View.VISIBLE);
                                             acceptInvite();
                                         }
                                     })
@@ -137,6 +145,7 @@ public class SendInviteDialog extends DialogFragment {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.cancel();
+                                            getDialog().dismiss();
                                         }
                                     });
                             AlertDialog dialog = dialogBuilder.create();
@@ -148,36 +157,79 @@ public class SendInviteDialog extends DialogFragment {
 
                     }
                 }
-                else Log.d(TAG, "task isn's successful");
+                else {
+                    Log.d(TAG, "task isn's successful");
+                    pg.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
 
     private void acceptInvite(){
         //delete record from pending invites and add user to friends list
-        WriteBatch batch = db.batch();
+        //***Because this has alot of dependent read & write operations, there's need to use transactions
+        final WriteBatch batch = db.batch();
 
         DocumentReference currentPending = db.collection("pending_invites").document(FetchNow.getUserId());
         batch.update(currentPending, mUserId, FieldValue.delete());
 
-        DocumentReference receipientUser = db.collection("pending_invites").document(mUserId);
+        final DocumentReference receipientUser = db.collection("pending_invites").document(mUserId);
         batch.update(receipientUser, FetchNow.getUserId(), FieldValue.delete());
 
-        DocumentReference currentFriends = db.collection("friends_list").document(FetchNow.getUserId());
-        batch.update(currentFriends, mUserId, true);
-
-        DocumentReference receipientFriends = db.collection("friends_list").document(mUserId);
-        batch.update(receipientFriends, FetchNow.getUserId(), true);
-
-        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+        final DocumentReference currentDoc = db.collection("friends_list").document(FetchNow.getUserId());
+        final Map<String, Object> map1 = new HashMap<>();
+        map1.put(mUserId, true);
+        currentDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
-                    Toast.makeText(getActivity(), " You can start consulting " + mFullName, Toast.LENGTH_SHORT).show();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document != null && document.exists()){
+                        batch.update(currentDoc, map1);
+                    }
+                    else{
+                        //the document doesnt exist create a new friendlist doc
+                        batch.set(currentDoc, map1);
+                    }
                 }
-                else Toast.makeText(getActivity(), "Task incomplete due to " + task.getException(), Toast.LENGTH_LONG).show();
+
+                final DocumentReference recipientDoc = db.collection("friends_list").document(mUserId);
+                final Map<String, Object> map2 = new HashMap<>();
+                map2.put(FetchNow.getUserId(), true);
+                recipientDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            DocumentSnapshot document = task.getResult();
+                                            if(document != null && document.exists()){
+                                                batch.update(recipientDoc, map2);
+                                            }
+                                            else{
+                                                batch.set(recipientDoc, map2);
+                                            }
+
+                                            batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()) {
+                                        Toast.makeText(getActivity(), "You have added "+ mFullName, Toast.LENGTH_LONG).show();
+                                        pg.setVisibility(View.INVISIBLE);
+                                        getDialog().dismiss();
+                                    }
+                                    else {
+                                        Toast.makeText(getActivity(), "Task incomplete due to " + task.getException(), Toast.LENGTH_LONG).show();
+                                        pg.setVisibility(View.INVISIBLE);
+                                        getDialog().dismiss();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
+
+
 
     }
 
@@ -190,25 +242,23 @@ public class SendInviteDialog extends DialogFragment {
 
         final DocumentReference currentPending = db.collection("pending_invites").document(FetchNow.getUserId());
         final Map<String, Object> map1 = new HashMap<>();
+        map1.put(mUserId, "sent");
         currentPending.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     if(document != null && document.exists()){
-                        map1.put(mUserId, "sent");
                         batch.update(currentPending, map1);
                     }
                     else{
-                        Map<String, Object> map0 = new HashMap<>();
-                        map0.put(mUserId, "sent");
-                        batch.set(currentPending, map0);
+                        batch.set(currentPending, map1);
                     }
                 }
 
-
                 final DocumentReference receipientPending = db.collection("pending_invites").document(mUserId);
                 final Map<String, Object> map2 = new HashMap<>();
+                map2.put(FetchNow.getUserId(), "received");
                 //check if receipient has pending invite to continue with update else create a new invite
                 receipientPending.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -217,13 +267,10 @@ public class SendInviteDialog extends DialogFragment {
                             DocumentSnapshot document = task.getResult();
                             if(document != null && document.exists()){
                                 Log.d(TAG, "Recipient has some invites, proceed with update");
-                                map2.put(FetchNow.getUserId(), "received");
                                 batch.update(receipientPending, map2);
                             } else {
                                 Log.d(TAG, "The receipient has no invites at all, hence create");
-                                Map<String, Object> map3 = new HashMap<>();
-                                map3.put(FetchNow.getUserId(), "received");
-                                batch.set(receipientPending, map3);
+                                batch.set(receipientPending, map2);
                             }
 
                             batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -232,22 +279,22 @@ public class SendInviteDialog extends DialogFragment {
                                     if(task.isSuccessful()) {
                                         Toast.makeText(getActivity(), "Invitation sent to "+mFullName, Toast.LENGTH_LONG).show();
                                         getDialog().dismiss();
+                                        pg.setVisibility(View.INVISIBLE);
                                     }
                                     else {
                                         Toast.makeText(getActivity(), "Unable to send invitation, please try again", Toast.LENGTH_LONG).show();
                                         getDialog().dismiss();
+                                        pg.setVisibility(View.INVISIBLE);
                                     }
                                 }
                             });
-                        } else Log.d(TAG, "Task isnt succecful");
+                        } else {
+                            Log.d(TAG, "Task isnt succecful");
+                            pg.setVisibility(View.INVISIBLE);
+                        }
                     }
                 });
-
             }
         });
-
-
-
-
     }
 }
