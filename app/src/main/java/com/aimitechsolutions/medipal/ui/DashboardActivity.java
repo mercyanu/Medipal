@@ -42,6 +42,9 @@ public class DashboardActivity extends AppCompatActivity {
     TextView drawerCountryView;
     ImageView drawerEditImage;
 
+    //links
+    TextView mhrLink;
+
     final FirebaseDatabase databaseInstance = FirebaseDatabase.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     
@@ -50,6 +53,15 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dash_drawer);
+
+        mhrLink = findViewById(R.id.mhr);
+        mhrLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DashboardActivity.this, HealthRecordActivity.class);
+                startActivity(i);
+            }
+        });
 
         final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if(userID == null) Log.d(TAG, "No currentUser found");
@@ -119,7 +131,8 @@ public class DashboardActivity extends AppCompatActivity {
                                 Toast.makeText(DashboardActivity.this, "YOu have selected Consultation", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.record:
-                                Toast.makeText(DashboardActivity.this, "YOu have selected Health Record", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(DashboardActivity.this, HealthRecordActivity.class);
+                                startActivity(i);
                                 break;
                             case R.id.settings:
                             case R.id.logout:
@@ -193,7 +206,7 @@ public class DashboardActivity extends AppCompatActivity {
             Toast.makeText(DashboardActivity.this, "Settings Clickec", Toast.LENGTH_SHORT).show();
             return true;
         }
-        else if(id == R.id.manage_requests) {
+        else if(id == R.id.manage_invites) {
             //goto the manage requests activity
             Intent i = new Intent(this, ManageInvitesActivity.class);
             startActivity(i);

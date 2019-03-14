@@ -64,7 +64,7 @@ public class Login extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragV = inflater.inflate(R.layout.login_screen, container, false);
         //emailLay = fragV.findViewById(R.id.email_lay);
-        emailView = fragV.findViewById(R.id.full_name);
+        emailView = fragV.findViewById(R.id.allergies);
         //pwordLay = fragV.findViewById(R.id.pass_lay);
         pwordView = fragV.findViewById(R.id.password);
         pg = fragV.findViewById(R.id.progress_bar2);

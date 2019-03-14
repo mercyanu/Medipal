@@ -8,6 +8,7 @@
     <string name="verify_your_email">Check your inbox to verify your email</string>
     <string name="forgot_email">Check your email for password reset link</string>
     <string name="all_required">* All fields are required</string>
+    <string name="health_record_update">Update your health information</string>
     <string name="invite_info">User will be added to consultation list upon acceptance</string>
     <string name="appointment_scheduling_text">Your appointments</string>
     <string name="consultation_text">Consultation</string>
@@ -25,6 +26,14 @@
     <string name="country_hint">Country of Residence:</string>
     <string name="speciality_hint">Speciality:</string>
     <string name="type_something_hint">Type something...</string>
+    <string name="weight">WEIGHT (kg)</string>
+    <string name="height">HEIGHT (cm)</string>
+    <string name="blood_sugar_level">BLOOD SUGAR (mg/dL)</string>
+    <string name="blood_pressure">BLOOD PRESSURE (mmHg)</string>
+    <string name="blood_group">BLOOD GROUP</string>
+    <string name="genotype">GENOTYPE</string>
+    <string name="cholesterol_level">CHOLESTEROL LEVEL (mg/dL)</string>
+    <string name="allergies">ALLERGIES (drugs, food etc)</string>
 
     <!-- BUTTONS -->
     <string name="login_button">LOGIN</string>
@@ -76,6 +85,27 @@
         <item>-Select-</item>
         <item>A doctor</item>
         <item>Not a doctor</item>
+    </string-array>
+
+    <!-- BLOOD GROUP -->
+    <string-array name="blood_group">
+        <item>O+</item>
+        <item>O-</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
+
+    <!-- GENOTYPE -->
+    <string-array name="genotype">
+        <item>AA</item>
+        <item>AS</item>
+        <item>SS</item>
+        <item>SC</item>
+        <item>CC</item>
     </string-array>
 
     <!-- COUNTRIES -->

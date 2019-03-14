@@ -19,11 +19,11 @@
             app:srcCompat="@drawable/appt_sch"
             android:scaleType="centerCrop"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/appointment_scheduling_text"
             android:layout_marginStart="5dp"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:textSize="30sp"
             android:textColor="@color/colorWhite"
             />
@@ -39,11 +39,11 @@
             app:srcCompat="@drawable/consult"
             android:scaleType="centerCrop"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/consultation_text"
             android:layout_marginStart="5dp"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:textSize="30sp"
             android:textColor="@color/colorWhite"
             />
@@ -59,11 +59,12 @@
             app:srcCompat="@drawable/phr"
             android:scaleType="centerCrop"/>
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/mhr"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/personal_health_record_text"
             android:layout_marginStart="5dp"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:textSize="30sp"
             android:textColor="@color/colorWhite"
             />
@@ -79,11 +80,11 @@
             app:srcCompat="@drawable/tips"
             android:scaleType="centerCrop"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/health_tips_text"
             android:layout_marginStart="5dp"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:textSize="30sp"
             android:textColor="@color/colorWhite"
             />

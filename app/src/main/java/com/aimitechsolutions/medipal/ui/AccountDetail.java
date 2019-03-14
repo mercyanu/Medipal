@@ -72,14 +72,13 @@ public class AccountDetail extends Fragment {
         fragV = inflater.inflate(R.layout.account_details_screen, container, false);
 
         //init
-        usertypeSpinner = fragV.findViewById(R.id.usertype);
+        usertypeSpinner = fragV.findViewById(R.id.user_type);
         firstNameView = fragV.findViewById(R.id.first_name);
         lastNameView = fragV.findViewById(R.id.last_name);
-        emailView = fragV.findViewById(R.id.full_name);
+        emailView = fragV.findViewById(R.id.email);
             emailView.setText(currentUser.getEmail());
             emailView.setEnabled(false);
-        mobileView = fragV.findViewById(R.id.mobile);
-        mobileView = fragV.findViewById(R.id.mobile);
+        mobileView = fragV.findViewById(R.id.mobile_no);
         genderSpinner = fragV.findViewById(R.id.gender);
         save = fragV.findViewById(R.id.save_button);
         countryPicker = fragV.findViewById(R.id.country_picker);

@@ -48,7 +48,7 @@ public class Forgot extends Fragment {
         fragV = inflater.inflate(R.layout.forgot_screen, container, false);
 
         //emailLay = fragV.findViewById(R.id.email_lay);
-        emailView = fragV.findViewById(R.id.full_name);
+        emailView = fragV.findViewById(R.id.allergies);
         progressBar = fragV.findViewById(R.id.progress_bar);
 
         gotoRegisterView = fragV.findViewById(R.id.goto_register);

@@ -2,9 +2,7 @@ package com.aimitechsolutions.medipal.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -60,7 +58,7 @@ public class SendInviteDialog extends DialogFragment {
         if(mUserType.equals("A doctor")) { mFullName = "Dr. " + mFirstName+ " " + mLastName; }
         else { mFullName = mFirstName+ " " + mLastName;}
 
-        userFullNameView = fragV.findViewById(R.id.full_name);
+        userFullNameView = fragV.findViewById(R.id.allergies);
         userFullNameView.setText(mFullName);
         cancelButton = fragV.findViewById(R.id.cancel_button);
         sendButton = fragV.findViewById(R.id.send_button);
@@ -146,6 +144,7 @@ public class SendInviteDialog extends DialogFragment {
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.cancel();
                                             getDialog().dismiss();
+
                                         }
                                     });
                             AlertDialog dialog = dialogBuilder.create();
@@ -228,9 +227,6 @@ public class SendInviteDialog extends DialogFragment {
                 });
             }
         });
-
-
-
     }
 
     private void sendInvite(){
@@ -294,6 +290,29 @@ public class SendInviteDialog extends DialogFragment {
                         }
                     }
                 });
+            }
+        });
+    }
+
+    void sampleDisplay(){ //use in sent & received frags
+        DocumentReference documentReference = db.collection("friends_list").document(FetchNow.getUserId());
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document != null){
+                        Map<String, Object> map = document.getData();
+                        if(map != null){
+                            for(Map.Entry<String, Object> entry : map.entrySet()){
+                                Toast.makeText(getActivity(), "Your friend is "+entry.getKey(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "Your freinsship stat is "+entry.getValue(), Toast.LENGTH_LONG).show();
+
+
+                            }
+                        }
+                    }
+                }
             }
         });
     }

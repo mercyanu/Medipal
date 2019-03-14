@@ -57,7 +57,7 @@ public class Register extends Fragment {
         fragV = inflater.inflate(R.layout.register_screen, container, false);
 
         //emailLay = fragV.findViewById(R.id.email_lay);
-        emailView = fragV.findViewById(R.id.full_name);
+        emailView = fragV.findViewById(R.id.allergies);
         //passLay = fragV.findViewById(R.id.pass_lay);
         pwordView = fragV.findViewById(R.id.password);
         progressBar = fragV.findViewById(R.id.progress_bar_reg);

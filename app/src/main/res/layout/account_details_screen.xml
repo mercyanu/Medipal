@@ -57,7 +57,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12">
         <Spinner
-            android:id="@+id/usertype"
+            android:id="@+id/user_type"
             style="@style/Widget.AppCompat.DropDownItem.Spinner"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -138,7 +138,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/last_name" />
     <EditText
-        android:id="@+id/full_name"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -165,10 +165,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.027"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/full_name" />
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <EditText
-        android:id="@+id/mobile"
+        android:id="@+id/mobile_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -195,7 +195,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.027"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mobile" />
+        app:layout_constraintTop_toBottomOf="@+id/mobile_no" />
     <RelativeLayout
         android:id="@+id/gender_dropdown"
         android:layout_width="match_parent"

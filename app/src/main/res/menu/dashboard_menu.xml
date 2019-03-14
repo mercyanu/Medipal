@@ -8,7 +8,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     app:showAsAction="never"/>
 
 <item
-    android:id="@+id/manage_requests"
+    android:id="@+id/manage_invites"
     android:orderInCategory="100"
     android:title="@string/invites_action"
     app:showAsAction="never" />

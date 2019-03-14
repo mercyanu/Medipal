@@ -18,7 +18,7 @@ public class ManageInvitesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_invites);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_invite);
+        Toolbar toolbar = findViewById(R.id.toolbar_invites);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

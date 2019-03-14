@@ -60,7 +60,7 @@ public class SendInvite extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragV = inflater.inflate(R.layout.send_invite_frag, container, false);
 
-        emailView = fragV.findViewById(R.id.full_name);
+        emailView = fragV.findViewById(R.id.allergies);
         searchButton = fragV.findViewById(R.id.search_button);
         pg = fragV.findViewById(R.id.progressBar20);
 
