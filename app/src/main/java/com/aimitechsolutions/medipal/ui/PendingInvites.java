@@ -17,12 +17,16 @@ import com.aimitechsolutions.medipal.R;
 import com.aimitechsolutions.medipal.model.FetchNow;
 import com.aimitechsolutions.medipal.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,8 +61,9 @@ public class PendingInvites extends Fragment {
 
         setHasOptionsMenu(true);  //use setHasOptionsMenu and override method opPrepareOptionsMenu to remove/customise action menu options
 
+        showFragments();
         DocumentReference documentReference = db.collection("pending_invites").document(FetchNow.getUserId());
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        /*documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
@@ -66,8 +71,10 @@ public class PendingInvites extends Fragment {
                     if(document != null && document.exists()){
                         Map<String, Object> map = document.getData();
                         if(map != null){
+                            List<String> userIDs = new ArrayList<>();
                             for(final Map.Entry<String, Object> entry : map.entrySet()){
-                                DocumentReference documentReference1 = db.collection("users").document(entry.getKey());
+
+                                /*DocumentReference documentReference1 = db.collection("users").document(entry.getKey());
                                 documentReference1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -92,27 +99,39 @@ public class PendingInvites extends Fragment {
             }
         });
 
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map<String, Object> map = documentSnapshot.getData();
+                List<String> userIDs = new ArrayList<>();
+                for(Map.Entry<String, Object> entry : map.entrySet()){
+                    Log.d(TAG, "You have these IDs within for loop: "+userIDs);
+                    userIDs.add(entry.getKey());
+                }
+                Log.d(TAG, "You have these IDs: "+userIDs);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Could not fetch anything");
+            }
+        }); */
+
         return fragV;
     }
 
     private void showFragments(){
         //if(receivedUsersArray.size() > 0){
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-            StringBuilder ids = new StringBuilder();
-
-            for(User user : receivedUsersArray){
-                String temmp = user.getUid()+" ";
-                ids.append(temmp);
-            }
-            Toast.makeText(getActivity(), "You have this before sending "+ids.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "You have this before sending "+ids.toString(), Toast.LENGTH_SHORT).show();
             ReceivedInvites receivedInvites = new ReceivedInvites();
-            receivedBundle.putSerializable("receive_user", receivedUsersArray);
-            receivedInvites.setArguments(receivedBundle);
+            //receivedBundle.putSerializable("receive_user", receivedUsersArray);
+            //receivedInvites.setArguments(receivedBundle);
             ft.add(R.id.receive_container, receivedInvites);
 
             SentInvites sentInvites = new SentInvites();
-            sentBundle.putSerializable("sent", sentUsersArray);
-            sentInvites.setArguments(sentBundle);
+            //sentBundle.putSerializable("sent", sentUsersArray);
+            //sentInvites.setArguments(sentBundle);
             ft.add(R.id.sent_container, sentInvites);
             ft.commit();
         //} //end if statement

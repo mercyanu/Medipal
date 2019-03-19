@@ -89,6 +89,7 @@
 
     <!-- BLOOD GROUP -->
     <string-array name="blood_group">
+        <item>-Select-</item>
         <item>O+</item>
         <item>O-</item>
         <item>A+</item>
@@ -101,11 +102,22 @@
 
     <!-- GENOTYPE -->
     <string-array name="genotype">
+        <item>-Select-</item>
         <item>AA</item>
         <item>AS</item>
         <item>SS</item>
         <item>SC</item>
         <item>CC</item>
+    </string-array>
+
+    <!-- TEST TIME -->
+    <string-array name="test_time">
+        <item>-Select-</item>
+        <item>Fasting</item>
+        <item>Before meal</item>
+        <item>After Meal(1-2hrs)</item>
+        <item>Before Exercise</item>
+        <item>Bedtime</item>
     </string-array>
 
     <!-- COUNTRIES -->

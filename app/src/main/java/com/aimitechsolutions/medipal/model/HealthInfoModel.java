@@ -10,7 +10,8 @@ public class HealthInfoModel {
 
         private String bGroup;
 
-        private String bPressure;
+        private String bPressureTop;
+        private String bPressureBottom;
 
         private String bSugar;
 
@@ -21,12 +22,17 @@ public class HealthInfoModel {
         private String cholesterol;
         private String allergies;
 
-    public HealthInfoModel(String date, String weight, String height, String bGroup, String bPressure, String bSugar, String testTime, String genotype, String cholesterol, String allergies) {
+        public HealthInfoModel(){
+
+        }
+
+    public HealthInfoModel(String date, String weight, String height, String bGroup, String bPressureTop, String bPressureBottom, String bSugar, String testTime, String genotype, String cholesterol, String allergies) {
         this.date = date;
         this.weight = weight;
         this.height = height;
         this.bGroup = bGroup;
-        this.bPressure = bPressure;
+        this.bPressureTop = bPressureTop;
+        this.bPressureBottom = bPressureBottom;
         this.bSugar = bSugar;
         this.testTime = testTime;
         this.genotype = genotype;
@@ -66,12 +72,20 @@ public class HealthInfoModel {
             this.bGroup = bGroup;
         }
 
-        public String getBPressure() {
-            return bPressure;
+        public String getBPressureTop() {
+            return bPressureTop;
         }
 
-        public void setBPressure(String bPressure) {
-            this.bPressure = bPressure;
+        public void setBPressureTop(String bPressureTop) {
+            this.bPressureTop = bPressureTop;
+        }
+
+        public String getBPressureBottom() {
+            return bPressureBottom;
+        }
+
+        public void setBPressureBottom(String bPressureBottom) {
+            this.bPressureBottom = bPressureBottom;
         }
 
         public String getBSugar() {
@@ -107,11 +121,11 @@ public class HealthInfoModel {
         }
 
         public String getAllergies() {
-            return cholesterol;
+            return allergies;
         }
 
-        public void setAllergies(String cholesterol) {
-            this.cholesterol = cholesterol;
+        public void setAllergies(String allergies) {
+            this.allergies = allergies;
         }
 
 }
